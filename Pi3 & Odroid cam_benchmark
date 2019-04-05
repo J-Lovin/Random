@@ -47,11 +47,19 @@ while fps._numFrames < args["num_frames"]:
                         
 	if args["brightest_pixel"] > 0:			
 		if i == 0:
-			print(frame.shape)
-			size = frame.size
-			decVal = 2	
-			for r in range(0, (size[0] -size[0]%decVal) -1, decVal)
-
+			size = np.transpose(frame.shape) #Horizontal dimension array 
+			decVal = 3	
+			dec_frame = np.empty((size[0]//decVal, size[1])) #Just considering as a 2D matrix (not 3D)
+			j = 0 #change to i
+			ran = range(0, (size[0] -size[0]%decVal) -1, decVal)
+			for r in ran:
+				k = 0 #change to j
+				for c in range (0, size[1]-1):
+					dec_frame.itemset((j, k), frame[r, c, 0])
+					k+=1
+				j+=1
+			print("Input frame size: " + str(frame.shape))		
+			print("Decimated frame size using one of every "+ str(decVal) + " rows: " + str(dec_frame.shape))
 			a = np.random.randint(20, size=(6,7))
 			indices = np.where(a == a.max())
 			row = indices[0]
